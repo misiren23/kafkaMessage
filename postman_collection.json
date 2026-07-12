@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "kafkaMessage",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "POST /post-message — успешная отправка",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"msg_id\": \"1234567890\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/post-message",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["post-message"]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msg_id\": \"1234567890\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/post-message",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["post-message"]
+            }
+          },
+          "body": ""
+        }
+      ]
+    },
+    {
+      "name": "POST /post-message — пустой msg_id",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"msg_id\": \"\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/post-message",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["post-message"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST /post-message — без тела",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/post-message",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["post-message"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}
