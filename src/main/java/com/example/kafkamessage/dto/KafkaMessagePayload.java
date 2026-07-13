@@ -16,6 +16,8 @@ public class KafkaMessagePayload {
     @JsonProperty("uri")
     private String uri;
 
+    public KafkaMessagePayload() {}
+
     public KafkaMessagePayload(String msgId, String timestamp, String method, String uri) {
         this.msgId = msgId;
         this.timestamp = timestamp;
