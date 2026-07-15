@@ -4,6 +4,7 @@ import com.example.kafkamessage.dto.KafkaMessagePayload;
 import com.example.kafkamessage.dto.MessageRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,9 @@ public class PostMessageController {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
+    @Value("${app.response.delay-ms:0}")
+    private long delayMs;
+
     public PostMessageController(KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
         this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
@@ -25,7 +29,10 @@ public class PostMessageController {
 
     @PostMapping("/post-message")
     public ResponseEntity<Void> postMessage(@RequestBody MessageRequest request,
-                                            HttpServletRequest httpRequest) {
+                                            HttpServletRequest httpRequest) throws InterruptedException {
+        if (delayMs > 0) {
+            Thread.sleep(delayMs);
+        }
         String timestamp = String.valueOf(System.currentTimeMillis());
         KafkaMessagePayload payload = new KafkaMessagePayload(
                 request.getMsgId(),
