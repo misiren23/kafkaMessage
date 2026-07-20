@@ -1,10 +1,10 @@
 package com.example.kafkamessage.controller;
 
+import com.example.kafkamessage.config.DelayConfig;
 import com.example.kafkamessage.dto.KafkaMessagePayload;
 import com.example.kafkamessage.dto.MessageRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,18 +18,20 @@ public class PostMessageController {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
+    private final DelayConfig delayConfig;
 
-    @Value("${app.response.delay-ms:0}")
-    private long delayMs;
-
-    public PostMessageController(KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
+    public PostMessageController(KafkaTemplate<String, String> kafkaTemplate,
+                                 ObjectMapper objectMapper,
+                                 DelayConfig delayConfig) {
         this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
+        this.delayConfig = delayConfig;
     }
 
     @PostMapping("/post-message")
     public ResponseEntity<Void> postMessage(@RequestBody MessageRequest request,
                                             HttpServletRequest httpRequest) throws InterruptedException {
+        long delayMs = delayConfig.get();
         if (delayMs > 0) {
             Thread.sleep(delayMs);
         }
